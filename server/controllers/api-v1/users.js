@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const User = require('../../models/User')
+const db = require('../../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const authLockedRoute = require('./authLockedRoute')
@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 router.post('/register', async (req, res) => {
   try {
     // check if user exists already
-    const findUser = await User.findOne({
+    const findUser = await db.User.findOne({
       email: req.body.email
     })
 
@@ -27,7 +27,7 @@ router.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds)
   
     // create new user
-    const newUser = new User({
+    const newUser = new db.User({
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword
@@ -56,7 +56,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     // try to find user in the db
-    const foundUser = await User.findOne({
+    const foundUser = await db.User.findOne({
       email: req.body.email
     })
 

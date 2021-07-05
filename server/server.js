@@ -5,6 +5,10 @@ const express = require('express')
 const cors = require('cors')
 const rowdy = require('rowdy-logger')
 const morgan = require('morgan')
+// connct to the db
+const db = require('./models')
+db.connect()
+
 
 // config express app
 const app = express()
@@ -25,11 +29,13 @@ app.use(express.json())
 
 const middleWare = (req, res, next) => {
   console.log('im a middleware 😬!')
+  res.locals.myData = '👾'
   next()
 }
 
 // GET / -- test index route
 app.get('/', middleWare, (req, res) => {
+  console.log(res.locals)
   res.json({ msg: 'hello backend 🤖' })
 })
 

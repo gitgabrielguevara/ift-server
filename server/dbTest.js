@@ -1,11 +1,11 @@
-require('./models')
-const User = require('./models/User.js')
-
+require('dotenv').config()
+const db = require('./models')
+db.connect()
 
 const userTest = async () => {
   try {
     // CREATE
-    const newUser = new User({
+    const newUser = new db.User({
       name: 'bing',
       email: 'bing@bang.com',
       password: 'bingbang'
@@ -15,7 +15,7 @@ const userTest = async () => {
     console.log('newUser', newUser)
 
     // READ
-    const foundUser =  await User.findOne({
+    const foundUser =  await db.User.findOne({
       name: newUser.name
     })
 
@@ -26,14 +26,14 @@ const userTest = async () => {
 
     await foundUser.save()
 
-    const findUserAgain = await User.findOne({
+    const findUserAgain = await db.User.findOne({
       name: 'bangBang'
     })
 
     console.log('findUserAgain', findUserAgain)
 
     // DESTROY
-    const deleteUser = await User.deleteOne({
+    const deleteUser = await db.User.deleteOne({
       name: 'bangBang'
     })
 

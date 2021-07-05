@@ -1,18 +1,18 @@
 const jwt = require('jsonwebtoken')
-const User = require('../../models/User.js')
+const db = require('../../models')
 
 // route specific middleware for jwt authorization
 const authLockedRoute = async (req, res, next) => {
   try {
-  // jwt from client
-  const authHeader = req.headers.authorization
-  // will throw to catch if jwt can't be verified
-  const decode = await jwt.verify(authHeader, process.env.JWT_SECRET)
-  // find user from db
-  const foundUser = await User.findById(decode.id)
-  // mount user on locals
-  res.locals.user = foundUser
-  next()
+    // jwt from client
+    const authHeader = req.headers.authorization
+    // will throw to catch if jwt can't be verified
+    const decode = await jwt.verify(authHeader, process.env.JWT_SECRET)
+    // find user from db
+    const foundUser = await db.User.findById(decode.id)
+    // mount user on locals
+    res.locals.user = foundUser
+    next()
 
   } catch(error) {
     console.log(error)
