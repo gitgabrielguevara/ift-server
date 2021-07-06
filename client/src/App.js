@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
-import jwt_decode from 'jwt-decode'
+import jwt from 'jsonwebtoken'
 import Navbar from './components/Navbar'
 import Login from './components/Login'
 import Profile from './components/Profile'
@@ -20,7 +20,7 @@ function App() {
     const token = localStorage.getItem('jwtToken')
     if (token) {
       // set the current usr if jwt is found
-      setCurrentUser(jwt_decode(token))
+      setCurrentUser(jwt.decode(token))
     } else {
       // double check that current user is null if the jwt is not found 
       setCurrentUser(null)

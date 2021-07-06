@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
-import jwt_decode from 'jwt-decode'
+import jwt from 'jsonwebtoken'
 import { Redirect } from 'react-router-dom'
 import Profile from './Profile'
 
@@ -31,7 +31,7 @@ export default function Signup(props) {
       localStorage.setItem('jwtToken', token);
 
       // get user data from the token
-      const decoded = jwt_decode(token)
+      const decoded = jwt.decode(token)
 
       // set the current user in the top app state
       props.setCurrentUser(decoded)
@@ -39,7 +39,7 @@ export default function Signup(props) {
     } catch(error) {
       // if the email was found in the db
       if(error.response.status === 400) {
-        setMessage('email exists')
+        setMessage(error.response.data.msg)
       } else {
         // otherwise log the error for debug
         console.log(error)

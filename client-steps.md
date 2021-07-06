@@ -4,11 +4,11 @@
 
 * create-react-app client
   * talk about needing redirect
-  * talk about jwt-decode package
+  * talk about jsonwebtoken package
   * talk about local storage
 
 * install dependancies
-  * axios jwt-decode react-router-dom
+  * axios jsonwebtoken react-router-dom
   * touch .env.local
   * populate .env.local `REACT_APP_SERVER_URL=http://localhost:3001`
 
@@ -16,6 +16,7 @@
   * mkdir components
   * touch Login.js Navbar.jsx Profile.jsx Register.jsx Welcome.jsx
 * stub components
+
 ```jsx
 export default function Login() {
   return (
@@ -164,7 +165,7 @@ export default function Navbar(props) {
 ```jsx
 import { useState } from 'react'
 import axios from 'axios'
-import jwt_decode from 'jwt-decode'
+import jwt from 'jsonwebtoken'
 import { Redirect } from 'react-router-dom'
 import Profile from './Profile'
 
@@ -173,10 +174,9 @@ export default function Login(props) {
   // for controlled form
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  // message to flash to user
   const [message, setMessage] = useState('')
-  
-  // submit will hit backend login endpoit
+
+  // submit will hit backend login endpoint
   const handleSumbit = async e => {
     try { 
       e.preventDefault()
@@ -186,7 +186,7 @@ export default function Login(props) {
         password: password
       }
 
-      const response = await axios.post('/api-v1/users/login', requestBody)
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/login`, requestBody)
       
       // destructure response
       const { token } = response.data
@@ -195,7 +195,7 @@ export default function Login(props) {
       localStorage.setItem('jwtToken', token);
 
       // get user data from the token
-      const decoded = jwt_decode(token)
+      const decoded = jwt.decode(token)
 
       // set the current user in the top app state
       props.setCurrentUser(decoded)
@@ -203,7 +203,7 @@ export default function Login(props) {
     } catch(error) {
       // if the email/pass didn't match
       if(error.response.status === 400) {
-        setMessage('bad username or password')
+        setMessage(error.response.data.msg)
       } else {
         // otherwise log the error for debug
         console.log(error)
@@ -257,7 +257,7 @@ export default function Login(props) {
 ```jsx
 import { useState } from 'react'
 import axios from 'axios'
-import jwt_decode from 'jwt-decode'
+import jwt from 'jsonwebtoken'
 import { Redirect } from 'react-router-dom'
 import Profile from './Profile'
 
@@ -279,7 +279,7 @@ export default function Signup(props) {
         password: password,
       }
 
-      const response = await axios.post('/api-v1/users/register', requestBody)
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/register`, requestBody)
       
       // destructure response
       const { token } = response.data
@@ -288,7 +288,7 @@ export default function Signup(props) {
       localStorage.setItem('jwtToken', token);
 
       // get user data from the token
-      const decoded = jwt_decode(token)
+      const decoded = jwt.decode(token)
 
       // set the current user in the top app state
       props.setCurrentUser(decoded)
@@ -296,7 +296,7 @@ export default function Signup(props) {
     } catch(error) {
       // if the email was found in the db
       if(error.response.status === 400) {
-        setMessage('email exists')
+        setMessage(error.response.data.msg)
       } else {
         // otherwise log the error for debug
         console.log(error)
@@ -468,14 +468,14 @@ export default function Navbar(props) {
 * make useeffect in app.js
 
 ```jsx
-import jwt_decode from 'jwt-decode'
+import jwt from 'jsonwebtoken'
 // if the user navigates away and comes back, look for a jwt
 useEffect(() => {
   const token = localStorage.getItem('jwtToken')
   // better auth would be checking the jwt token on a dedicataed route
   if (token) {
     // set the current usr if jwt is found
-    setCurrentUser(jwt_decode(token))
+    setCurrentUser(jwt.decode(token))
   } else {
     // double check that current user is null if the jwt is not found 
     setCurrentUser(null)

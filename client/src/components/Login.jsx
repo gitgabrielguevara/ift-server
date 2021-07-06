@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
-import jwt_decode from 'jwt-decode'
+import jwt from 'jsonwebtoken'
 import { Redirect } from 'react-router-dom'
 import Profile from './Profile'
 
@@ -10,8 +10,8 @@ export default function Login(props) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
-  
-  // submit will hit backend login endpoit
+
+  // submit will hit backend login endpoint
   const handleSumbit = async e => {
     try { 
       e.preventDefault()
@@ -30,7 +30,7 @@ export default function Login(props) {
       localStorage.setItem('jwtToken', token);
 
       // get user data from the token
-      const decoded = jwt_decode(token)
+      const decoded = jwt.decode(token)
 
       // set the current user in the top app state
       props.setCurrentUser(decoded)
@@ -38,7 +38,7 @@ export default function Login(props) {
     } catch(error) {
       // if the email/pass didn't match
       if(error.response.status === 400) {
-        setMessage('bad username or password')
+        setMessage(error.response.data.msg)
       } else {
         // otherwise log the error for debug
         console.log(error)

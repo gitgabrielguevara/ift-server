@@ -16,8 +16,8 @@ const authLockedRoute = async (req, res, next) => {
 
   } catch(error) {
     console.log(error)
-    // respond with status 400 if auth fails
-    res.status(400).json({ msg: 'auth failed' })
+    // respond with status 401 if auth fails
+    res.status(401).json({ msg: 'auth failed' })
   }
 } 
 
