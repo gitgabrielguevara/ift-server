@@ -1,6 +1,8 @@
 # Simple MERN Auth Codealongs
 
-This is a very simple MERN auth setup using jwts and a custum auth middleware in express to authenticate users. Passport is not used simply to better illustrate the auth flow. 
+This is a very simple MERN auth setup using jwts and a custum auth middleware in express to authenticate users. 
+
+Passport is not used simply to better illustrate the auth flow. 
 
 Although the client and server are both in the repo for simplicity, they should be separate repos in practice for a decoupled app deployment.
 
