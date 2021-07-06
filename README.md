@@ -1,4 +1,4 @@
-# Simple MERN Auth Codealongs
+# Intro to MERN Auth Codealongs
 
 This is a very simple MERN auth setup using jwts and a custum auth middleware in express to authenticate users. 
 
