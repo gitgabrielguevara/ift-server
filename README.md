@@ -26,6 +26,7 @@ MONGODB_URI=mongodb://localhost/mernAuth
 # jwt secret for signing json web tokens -- can be any string
 JWT_SECRET="mysecretmessage"
 ```
+* run `npm i` in `./server` to install the required packages
 * run `nodemon` in the `./server` folder to start the server
 
 ### Set up the client
@@ -36,5 +37,5 @@ JWT_SECRET="mysecretmessage"
 # backend server url
 REACT_APP_SERVER_URL=http://localhost:3001
 ```
-* run `npm i` in `./client`
+* run `npm i` in `./client` to install the required packages
 * start the react app with `npm run start`
