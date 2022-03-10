@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import jwt from 'jsonwebtoken'
 import Navbar from './components/Navbar'
-import Login from './components/Login'
-import Profile from './components/Profile'
-import Register from './components/Register'
+// import Login from './components/Login'
+// import Profile from './components/Profile'
+// import Register from './components/Register'
 import Welcome from './components/Welcome'
 import './App.css';
 
@@ -43,16 +43,16 @@ function App() {
     </header>
 
     <div className="App">
-        <Switch>
-          <Route 
+        <Routes>
+          {/* <Route 
             path='/register'
             render={ (props) => <Register {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
-          />
+          /> */}
 
-          <Route 
+          {/* <Route 
             path='/login'
             render={ (props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
-          />
+          /> */}
 
           {/* <Route 
           path="/profile" 
@@ -60,13 +60,13 @@ function App() {
            /> */}
 
 
-          <Route 
+          {/* <Route 
             path="/profile" 
-            render={(props) => currentUser ? <Profile {...props} handleLogout={handleLogout} currentUser={ currentUser } /> : <Redirect to="/login" /> }
-          />
+            render={(props) => currentUser ? <Profile {...props} handleLogout={handleLogout} currentUser={ currentUser } /> : <Navigate to="/login" /> }
+          /> */}
 
           <Route exact path="/" component={ Welcome } />
-        </Switch>
+        </Routes>
     </div>
 
   </Router>
