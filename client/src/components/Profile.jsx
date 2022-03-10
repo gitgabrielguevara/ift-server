@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Redirect } from 'react'
+import { Navigate } from 'react'
 import axios from 'axios'
 import Login from './Login'
 
@@ -31,8 +31,8 @@ export default function Profile(props) {
     privateMessage()
   }, [props])
 
-  // if auth fails redirect to login
-  if(!props.currentUser) return <Redirect to='/login' component={ Login } currentUser={ props.currentUser } />
+  // if auth fails Navigate to login
+  if(!props.currentUser) return <Navigate to='/login' component={ Login } currentUser={ props.currentUser } />
 
   return (
     <div>

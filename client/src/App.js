@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import jwt from 'jsonwebtoken'
 import Navbar from './components/Navbar'
 import Login from './components/Login'
-// import Profile from './components/Profile'
+import Profile from './components/Profile'
 import Register from './components/Register'
 import Welcome from './components/Welcome'
 import './App.css';
@@ -46,26 +46,33 @@ function App() {
         <Routes>
           <Route 
             path='/register'
-            render={ (props) => <Register {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
+            element={<Register currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
           />
 
           <Route 
             path='/login'
-            render={ (props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
+            element={<Login currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
           />
 
-          {/* <Route 
-          path="/profile" 
-          render={ (props) => <Profile {...props} currentUser={ currentUser } />}
-           /> */}
-
-
-          {/* <Route 
+          
+           pre-refactor
+           <Route 
             path="/profile" 
-            render={(props) => currentUser ? <Profile {...props} handleLogout={handleLogout} currentUser={ currentUser } /> : <Navigate to="/login" /> }
-          /> */}
+            element={<Profile currentUser={ currentUser } />}
+           /> 
+         
 
-          <Route exact path="/" component={ Welcome } />
+
+          <Route 
+            path="/profile" 
+            // this is how you auth lock a route -- conditionall render a Navigate 
+            element={currentUser ? <Profile handleLogout={handleLogout} currentUser={ currentUser } /> : <Navigate to="/login" /> }
+          />
+
+          <Route 
+            exact path="/" 
+            element={<Welcome />} 
+            />
         </Routes>
     </div>
 
