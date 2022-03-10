@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import jwt from 'jsonwebtoken'
 import Navbar from './components/Navbar'
-// import Login from './components/Login'
+import Login from './components/Login'
 // import Profile from './components/Profile'
-// import Register from './components/Register'
+import Register from './components/Register'
 import Welcome from './components/Welcome'
 import './App.css';
 
@@ -44,15 +44,15 @@ function App() {
 
     <div className="App">
         <Routes>
-          {/* <Route 
+          <Route 
             path='/register'
             render={ (props) => <Register {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
-          /> */}
+          />
 
-          {/* <Route 
+          <Route 
             path='/login'
             render={ (props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
-          /> */}
+          />
 
           {/* <Route 
           path="/profile" 

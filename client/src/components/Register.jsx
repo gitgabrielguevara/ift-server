@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import Profile from './Profile'
 
 export default function Signup(props) {
@@ -47,8 +47,8 @@ export default function Signup(props) {
     }
   }
 
-  // redirect to the profile if the user is logged in
-  if(props.currentUser) return <Redirect to='/profile' component={ Profile } currentUser={ props.currentUser } />
+  // Navigate to the profile if the user is logged in
+  if(props.currentUser) return <Navigate to='/profile' component={ Profile } currentUser={ props.currentUser } />
 
   return (
     <div>
