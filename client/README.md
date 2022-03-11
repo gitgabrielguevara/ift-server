@@ -1,70 +1,489 @@
-# Getting Started with Create React App
+# Steps to Acheive
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## App setup
 
-## Available Scripts
+* create-react-app client
+  * talk about needing redirect
+  * talk about jsonwebtoken package
+  * talk about local storage
 
-In the project directory, you can run:
+* install dependancies
+  * axios jsonwebtoken react-router-dom
+  * touch .env.local
+  * populate .env.local `REACT_APP_SERVER_URL=http://localhost:3001`
 
-### `yarn start`
+* create needed components
+  * mkdir components
+  * touch Login.js Navbar.jsx Profile.jsx Register.jsx Welcome.jsx
+* stub components
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```jsx
+export default function Login() {
+  return (
+    <div>
+      hello from login
+    </div>
+  )
+}
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+export default function Navbar() {
+  return (
+    <nav>
+      hello from navbar
+    </nav>
+  )
+}
 
-### `yarn test`
+export default function Profile() {
+  return (
+    <div>
+      hello from profile
+    </div>
+  )
+}
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+export default function Register() {
+  return (
+    <div>
+      hello from register
+    </div>
+  )
+}
 
-### `yarn build`
+export default function Welcome() {
+  return (
+    <div>
+      hello from welcome
+    </div>
+  )
+}
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* build App.js
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```jsx
+import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import Navbar from './components/Navbar'
+import Login from './components/Login'
+import Profile from './components/Profile'
+import Register from './components/Register'
+import Welcome from './components/Welcome'
+import './App.css';
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+function App() {
+  // user data if the a user is logged in 
+  const [currentUser, setCurrentUser] = useState(null)
 
-### `yarn eject`
+  // check .env
+  console.log(process.env.REACT_APP_SERVER_URL)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+  // useEffect if the user navigates away and comes back, look for a jwt
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  // function to delete jwt from local storage to log user out
+  const handleLogout = () => {
+    console.log('log user out')
+  }
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  return (
+    <Router>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+    <header>
+      <Navbar currentUser={ currentUser } handleLogout={ handleLogout } />
+    </header>
 
-## Learn More
+    <div className="App">
+        <Switch>
+          <Route 
+            path='/register'
+            render={ (props) => <Register {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
+          />
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+          <Route 
+            path='/login'
+            render={ (props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
+          />
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+          <Route 
+          path="/profile" 
+          render={ (props) => <Profile {...props} currentUser={ currentUser } />}
+           />
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+          {/* <Route 
+            path="/profile" 
+            render={(props) => currentUser ? <Profile {...props} handleLogout={handleLogout} currentUser={ currentUser } /> : <Redirect to="/login" /> }
+          /> */}
 
-### Analyzing the Bundle Size
+          <Route exact path="/" component={ Welcome } />
+        </Switch>
+    </div>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+  </Router>
+  );
+}
+```
 
-### Making a Progressive Web App
+* build nave bar
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```jsx
+import { Link } from 'react-router-dom'
 
-### Advanced Configuration
+export default function Navbar(props) {
+  return (
+    <nav>
+      <Link to="/">
+        <h5>user app</h5>
+      </Link>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+      {/* if the user is logged in... */}
+      <Link to="/">
+        <span onClick={ props.handleLogout }>log out</span>
+      </Link>
+  
+      <Link to="/profile">
+        profile
+      </Link>
 
-### Deployment
+      {/* if the user is logged out... */}
+      <Link to="/register">
+          register
+      </Link>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+      <Link to="/login">
+          login
+      </Link>
+    </nav>
+  )
+}
+```
 
-### `yarn build` fails to minify
+## The fun stuff
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* make login form
+
+```jsx
+import { useState } from 'react'
+import axios from 'axios'
+import jwt from 'jsonwebtoken'
+import { Redirect } from 'react-router-dom'
+import Profile from './Profile'
+
+export default function Login(props) {
+
+  // for controlled form
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [message, setMessage] = useState('')
+
+  // submit will hit backend login endpoint
+  const handleSumbit = async e => {
+    try { 
+      e.preventDefault()
+      // post to backend with form submission
+      const requestBody = {
+        email: email,
+        password: password
+      }
+
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/login`, requestBody)
+      
+      // destructure response
+      const { token } = response.data
+
+      // Save token to localStorage
+      localStorage.setItem('jwtToken', token);
+
+      // get user data from the token
+      const decoded = jwt.decode(token)
+
+      // set the current user in the top app state
+      props.setCurrentUser(decoded)
+      
+    } catch(error) {
+      // if the email/pass didn't match
+      if(error.response.status === 400) {
+        setMessage(error.response.data.msg)
+      } else {
+        // otherwise log the error for debug
+        console.log(error)
+      }
+    }
+  }
+
+  // redirect to profile if user is logged in
+  if(props.currentUser) return <Redirect to='/profile' component={ Profile } currentUser={ props.currentUser } />
+
+  return (
+    <div>
+      <h3>Login Form:</h3>
+
+      <p>{message}</p>
+
+      <form onSubmit={handleSumbit}>
+        <label htmlFor='email-input'>email:</label>
+
+        <input
+          id='email-input'
+          type='email'
+          placeholder='user@domain.com'
+          onChange={e => setEmail(e.target.value)}
+          value={email}
+        />
+
+        <label htmlFor='password-input'>password:</label>
+
+        <input 
+          id='password-input'
+          type='password'
+          placeholder='password'
+          onChange={e => setPassword(e.target.value)}
+        />
+
+        <input 
+          type='submit'
+          value='login'
+        />
+      </form>
+    </div>
+  )
+}
+```
+
+## You DO
+
+* make registration form
+
+```jsx
+import { useState } from 'react'
+import axios from 'axios'
+import jwt from 'jsonwebtoken'
+import { Redirect } from 'react-router-dom'
+import Profile from './Profile'
+
+export default function Signup(props) {
+  // for controlled form (name, email, password)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  // for flash message
+  const [message, setMessage] = useState('')
+
+  const handleSumbit = async e => {
+    try { 
+      e.preventDefault()
+      // post to backend with form submission
+      const requestBody = {
+        name: name,
+        email: email,
+        password: password,
+      }
+
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/register`, requestBody)
+      
+      // destructure response
+      const { token } = response.data
+
+      // Save token to localStorage
+      localStorage.setItem('jwtToken', token);
+
+      // get user data from the token
+      const decoded = jwt.decode(token)
+
+      // set the current user in the top app state
+      props.setCurrentUser(decoded)
+      
+    } catch(error) {
+      // if the email was found in the db
+      if(error.response.status === 400) {
+        setMessage(error.response.data.msg)
+      } else {
+        // otherwise log the error for debug
+        console.log(error)
+      }
+    }
+  }
+
+  // redirect to the profile if the user is logged in
+  if(props.currentUser) return <Redirect to='/profile' component={ Profile } currentUser={ props.currentUser } />
+
+  return (
+    <div>
+      <h3>Registration Form:</h3>
+
+      <p>{message}</p>
+
+      <form onSubmit={handleSumbit}>
+        <label htmlFor='name-input'>name:</label>
+
+        <input
+          id='name-input'
+          type='text'
+          placeholder='your name...'
+          onChange={e => setName(e.target.value)}
+          value={name}
+        />
+
+        <label htmlFor='email-input'>email:</label>
+
+        <input
+          id='email-input'
+          type='email'
+          placeholder='user@domain.com'
+          onChange={e => setEmail(e.target.value)}
+          value={email}
+        />
+
+        <label htmlFor='password-input'>password:</label>
+
+        <input 
+          id='password-input'
+          type='password'
+          placeholder='password'
+          onChange={e => setPassword(e.target.value)}
+        />
+
+        <input 
+          type='submit'
+          value='login'
+        />
+      </form>
+    </div>
+  )
+}
+```
+
+* update logout
+
+```jsx
+  // in App.js
+
+  // function to delete jwt from local storage to log user out
+  const handleLogout = () => {
+    if (localStorage.getItem('jwtToken')) {
+      localStorage.removeItem('jwtToken');
+      setCurrentUser(null);
+    }
+  }
+```
+* make profile
+
+```jsx
+import { useState, useEffect } from 'react'
+import { Redirect } from 'react'
+import axios from 'axios'
+
+export default function Profile(props) {
+  const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    const privateMessage = async function() {
+      try {
+        // get the jwt from local storage
+        const token = localStorage.getItem('jwtToken')
+        // make auth headers
+        const authHeaders = {
+          'Authorization': token
+        }
+        // hit auth locked endpoint
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/auth-locked`, { headers: authHeaders })
+        // const response = await axios.get('/')
+        console.log('👾',  process.env.REACT_APP_TEST)
+        // console.log('response 👾', response.data)
+        setMessage(response.data.msg)
+      } catch(error) {
+        console.log(error)
+        // log the user out if the jwt doesn't pass the auth check
+        props.handleLogout()
+      }
+    }
+  
+    privateMessage()
+  }, [props])
+
+  // if auth fails redirect to login
+  if(!props.currentUser) return <Redirect to='/login' component={ Profile } currentUser={ props.currentUser } />
+
+  return (
+    <div>
+      <h4>hello {props.currentUser.name}</h4>
+      <h5>your email is {props.currentUser.email}</h5>
+
+      <div>
+      <p>you have a secret message from the auth locked route:</p>
+
+      <p> {message} </p>
+      </div>
+    </div>
+  )
+}
+```
+
+* update route in App.js
+
+* Update Navbar
+
+```jsx
+import { Link } from 'react-router-dom' 
+
+export default function Navbar(props) {
+  // if the user is logged in
+  const loggedIn = (
+    <>
+      <Link to="/">
+        <span onClick={ props.handleLogout }>log out</span>
+      </Link>
+  
+      <Link to="/profile">
+        profile
+      </Link>
+    </>
+  )
+
+  // if the user is logged out
+  const loggedOut = (
+    <>
+      <Link to="/signup">
+      sign up
+      </Link>
+
+      <Link to="/login">
+          login
+      </Link>
+    </>
+  )
+
+  return (
+    <nav>
+      <Link to="/">
+        <h5>user app</h5>
+      </Link>
+      
+      {props.currentUser ? loggedIn : loggedOut}
+    </nav>
+  )
+}
+```
+
+* make useeffect in app.js
+
+```jsx
+import jwt from 'jsonwebtoken'
+// if the user navigates away and comes back, look for a jwt
+useEffect(() => {
+  const token = localStorage.getItem('jwtToken')
+  // better auth would be checking the jwt token on a dedicataed route
+  if (token) {
+    // set the current usr if jwt is found
+    setCurrentUser(jwt.decode(token))
+  } else {
+    // double check that current user is null if the jwt is not found 
+    setCurrentUser(null)
+  }
+}, [])
+```
+
+* YAY AUTH
+
+* Stretch add error handling to express
+* add verifacation route to backend
