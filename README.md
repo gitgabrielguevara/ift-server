@@ -1,4 +1,4 @@
-# Intro to MERN Auth Codealong Lessons
+# ![GA Logo](https://ga-dash.s3.amazonaws.com/production/assets/logo-9f88ae6c9c3871690e33280fcf557f33.png) Intro to MERN Auth Codealong Lessons
 
 This is a very simple MERN auth setup using jwts (json web tokens) and a custom auth middleware in express to authenticate users. 
 
@@ -53,3 +53,10 @@ REACT_APP_SERVER_URL=http://localhost:3001
 * run `npm i` in `./client` to install the required packages
 * start the react app with `npm run start`
 * navigate to [localhost:3000](http://localhost:3000) to see the application
+
+---
+
+## Licensing
+
+1. All content is licensed under a [CC-BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license.
+2. All software code is licensed under GNU GPLv3. For commercial use or alternative licensing, please contact legal@ga.co.
