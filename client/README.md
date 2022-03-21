@@ -63,7 +63,8 @@ export default function Welcome() {
 
 ```jsx
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import jwt from 'jsonwebtoken'
 import Navbar from './components/Navbar'
 import Login from './components/Login'
 import Profile from './components/Profile'
@@ -82,7 +83,10 @@ function App() {
 
   // function to delete jwt from local storage to log user out
   const handleLogout = () => {
-    console.log('log user out')
+    if (localStorage.getItem('jwtToken')) {
+      localStorage.removeItem('jwtToken');
+      setCurrentUser(null);
+    }
   }
 
   return (
@@ -93,35 +97,44 @@ function App() {
     </header>
 
     <div className="App">
-        <Switch>
+        <Routes>
           <Route 
             path='/register'
-            render={ (props) => <Register {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
+            element={<Register currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
           />
 
           <Route 
             path='/login'
-            render={ (props) => <Login {...props} currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
+            element={<Login currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
           />
 
-          <Route 
-          path="/profile" 
-          render={ (props) => <Profile {...props} currentUser={ currentUser } />}
-           />
+          
+          // pre-refactor
+           <Route 
+            path="/profile" 
+            element={<Profile currentUser={ currentUser } />}
+           /> 
+         
 
 
           {/* <Route 
             path="/profile" 
-            render={(props) => currentUser ? <Profile {...props} handleLogout={handleLogout} currentUser={ currentUser } /> : <Redirect to="/login" /> }
-          /> */}
+            // this is how you auth lock a route -- conditionall render a Navigate 
+            element={currentUser ? <Profile handleLogout={handleLogout} currentUser={ currentUser } /> : <Navigate to="/login" /> } */}
+          />
 
-          <Route exact path="/" component={ Welcome } />
-        </Switch>
+          <Route 
+            exact path="/" 
+            element={<Welcome />} 
+            />
+        </Routes>
     </div>
 
   </Router>
   );
 }
+
+export default App;
 ```
 
 * build nave bar
