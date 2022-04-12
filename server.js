@@ -4,7 +4,7 @@ const express = require('express')
 const cors = require('cors')
 const rowdy = require('rowdy-logger')
 const morgan = require('morgan')
-// connct to the db
+// connect to the db
 const db = require('./models')
 db.connect()
 
@@ -44,6 +44,6 @@ app.use('/api-v1/users', require('./controllers/api-v1/users.js'))
 // hey listen
 app.listen(PORT, () => {
   rowdyResults.print()
-  console.log(`is that port ${PORT} I hear? 🙉`)
+  console.log(`🎧 the only resort best port is ${PORT} 🎧`)
 })
 
