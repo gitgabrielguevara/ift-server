@@ -2,7 +2,7 @@ const router = require('express').Router()
 const db = require('../../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const authLockedRoute = require('./authLockedRoute')
+const authLockedRoute = require('../authLockedRoute')
 
 
 // GET /users - test endpoint

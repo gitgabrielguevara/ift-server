@@ -1,0 +1,12 @@
+import YAML from 'yaml'
+
+const documentSchema = YAML.Schema
+    question: string
+    answer: string
+
+    age: integer
+
+    female: boolean
+        
+
+# module.exports = YAML.model('Document', documentSchema);
