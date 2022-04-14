@@ -18,8 +18,11 @@
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
+    "mongo": "^0.1.0",
+    "mongodb": "^4.5.0",
     "mongoose": "^5.13.14",
     "morgan": "^1.10.0",
+    "node": "^17.7.2",
     "rowdy-logger": "^1.0.2",
     "yaml": "^2.0.0"
   }

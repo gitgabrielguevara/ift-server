@@ -1,16 +1,16 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const documentSchema = mongoose.Schema({
-    question: {
+    text:{
         type: String,
-        required: true,
-        minLength: 5
+        required: [true, 'Please add a text value'],
     },
-    answer: {
-        type: String,
-        required: true,
-        minLength: 5
     },
-});
+    {
+        timestamps: true,
+    }
+)
 
-module.exports = mongoose.model('Document', documentSchema);
+module.exports = mongoose.model('Document', documentSchema)
+
+

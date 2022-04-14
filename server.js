@@ -4,10 +4,18 @@ const express = require('express')
 const cors = require('cors')
 const rowdy = require('rowdy-logger')
 const morgan = require('morgan')
-// connect to the db
-const db = require('./models')
-db.connect()
+// connect to the db for user
+
+
+// const db = require('./models')
+// db.connect()
+
+
 const {errorHandler} = require('./middleware/errorMiddleware')
+const connectDB = require('./config/db')
+connectDB()
+
+
 
 // config express app
 const app = express()
