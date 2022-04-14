@@ -44,6 +44,6 @@ app.use('/api-v1/users', require('./controllers/api-v1/users.js'))
 // hey listen
 app.listen(PORT, () => {
   rowdyResults.print()
-  console.log(`🎧 the only resort best port is ${PORT} 🎧`)
+  console.log(`🎧 listenting to PORT ${PORT} 🎧`)
 })
 
