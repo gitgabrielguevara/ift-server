@@ -1,23 +1,37 @@
-const express = require('express');
-const router = express.Router();
-const db = require('../models');
 
-// GET - View all documents
-router.get('/', async (req, res) => {
-    const allDocuments = await db.Document.find({});
-    res.json(allDocuments);
-});
+const asyncHandler = require ('express-async-handler')
 
-// GET - view a single document
-router.get('/:documentId', async (req, res) => {
-    try {
-        const documentId = req.params.documentId;
-        const formOne = await db.Document.findById({_id: documentId})
-        res.status(202).json(formOne)
-    } catch (err) {
-        console.log(err)
-        res.status(503).json({msg: "what went wrong"})
-    }
+// Get a specific users document
+// route GET /api/document
+const getDocument = asyncHandler (async (req, res) => {
+    res.status(200).json({ message: 'Get document'})
 })
 
-module.exports = router;
+// Set a specific users document
+// route POST /api/document
+const setDocument = asyncHandler (async (req, res) => {
+    if(!req.body.text) {
+    res.status(400) 
+    throw new Error ('Please add a text field')
+    }
+    res.status(200).json({ message: 'Set document'})    
+})
+
+// Update a specific users document
+// route PUT /api/document/:id
+const updateDocument = asyncHandler (async (req, res) => {
+    res.status(200).json({message:`Edit Document ${req.params.id}`})
+})
+
+// Delete a specific users document
+// route GET /api/document/:id
+const deleteDocument = asyncHandler (async (req, res) => {
+    res.status(200).json({message:`Delete Document ${req.params.id}`})
+})
+
+module.exports = {
+    getDocument,
+    setDocument,
+    updateDocument,
+    deleteDocument
+}

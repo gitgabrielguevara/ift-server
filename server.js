@@ -7,7 +7,7 @@ const morgan = require('morgan')
 // connect to the db
 const db = require('./models')
 db.connect()
-
+const {errorHandler} = require('./middleware/errorMiddleware')
 
 // config express app
 const app = express()
@@ -20,6 +20,10 @@ app.use(cors())
 // request body parsing
 app.use(express.urlencoded({ extended: false })) // optional 
 app.use(express.json())
+
+
+// request document route
+app.use('/api/document', require('./controllers/api-v1/document-route'))
 
 // app.use((req, res, next) => {
 //   console.log('im a middleware 😬!')
@@ -40,6 +44,8 @@ app.get('/', middleWare, (req, res) => {
 
 // controllers
 app.use('/api-v1/users', require('./controllers/api-v1/users.js'))
+
+app.use(errorHandler)
 
 // hey listen
 app.listen(PORT, () => {
