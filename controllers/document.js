@@ -1,6 +1,5 @@
 
 const asyncHandler = require ('express-async-handler')
-
 const Document = require('../models/document')
 
 // Get a specific users document
@@ -51,7 +50,7 @@ const deleteDocument = asyncHandler (async (req, res) => {
 
     await document.remove()
 
-    res.status(200).json({message:`Delete Document ${req.params.id}`})
+    res.status(200).json({ id: req.params.id })
 })
 
 module.exports = {

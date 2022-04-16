@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const documentSchema = mongoose.Schema({
     text:{
         type: String,
-        required: [true, 'Please add a text value'],
+        required: [true, 'Add something to the document here'],
     },
     },
     {

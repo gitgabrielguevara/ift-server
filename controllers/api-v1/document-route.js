@@ -14,7 +14,7 @@ router.delete('/:id', deleteDocument)
 
 module.exports = router
 
-// GET - View all categories
+// GET - View all documents
 // router.get('/', async (req, res) => {
 //     const allDocuments = await db.Document.find({});
 
@@ -24,7 +24,7 @@ module.exports = router
 // // GET - view a single document
 // router.get('/:documentId', async (req, res) => {
 //     try {
-//         const categoryId = req.params.categoryId;
+//         const categoryId = req.params.documentId;
 //         const formOne = await db.Document.findById({_id: documentId})
 //         res.status(202).json(oneForm)
 //     } catch (err) {
