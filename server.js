@@ -4,7 +4,9 @@ const express = require('express')
 const cors = require('cors')
 const rowdy = require('rowdy-logger')
 const morgan = require('morgan')
-
+const bodyParser = require('body-parser');
+const pdf = require('html-pdf');
+const pdfTemplate = require('./documents');
 
 // connect to the db for user
 const db = require('./models')
@@ -25,21 +27,30 @@ app.use(morgan('tiny'))
 // cross origin resource sharing 
 app.use(cors())
 // request body parsing
-app.use(express.urlencoded({ extended: false })) // optional 
+app.use(express.urlencoded({ extended: true })) // changed to true 4-16
 app.use(express.json())
 
+app.post('/create-pdf', (req, res) => {
+  console.log(req.body)
+  pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+      if(err) {
+          res.send(Promise.reject());
+      }
+
+      res.send(Promise.resolve());
+  });
+});
+
+app.get('/fetch-pdf', (req, res) => {
+  res.sendFile(`${__dirname}/result.pdf`)
+})
 
 // request document route
 app.use('/api/document', require('./controllers/api-v1/document-route'))
 
-// app.use((req, res, next) => {
-//   console.log('im a middleware 😬!')
-//   next()
-// })
-
 const middleWare = (req, res, next) => {
   console.log('im a middleware 😬!')
-  res.locals.myData = '👾'
+  res.locals.myData = '😱'
   next()
 }
 
