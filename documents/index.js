@@ -1,4 +1,4 @@
-module.exports = ({ name, street_address, city_st_zip, price1, price2}) => {
+module.exports = ({ name, street_address, city_st_zip, child_name, price1, price2}) => {
    const today = new Date();
 return `
    <!doctype html>
@@ -80,11 +80,42 @@ return `
          </style>
       </head>
       <body>
+      <div class="invoice-box">
+      <tr class="information">
+      <td colspan="2">
+      </td>
+      <div class="justify-center"
+      </tr>
+      LAST WILL AND TESTAMENT OF
+      ${name}
+      </div> 
+
+<p> I, ${name}, a resident of Los Angeles County, California, being of sound mind and memory, do declare that this is my last will and testament. I revoke all prior wills and codicils.</p>
+ARTICLE ONE
+DECLARATIONS CONCERNING FAMILY
+1.1 Family.
+I am unmarried and I am a father of two children. 
+
+${child_name}, born on 10/02/10 and Ariana Guevara, born on 12/26/08
+
+All references in this Will to {% if CL_Children.number() > 1 %}“my children” are to them. 
+I intentionally leave nothing to anyone else claiming to be a child of mine regardless of the validity of their claim.{% endif %}{% if CL_AfterbornProvisions_mc == 'Option 2' %}Any provisions for my children in this will include any child of mine who may be born or adopted hereafter.
+1.2 Personal Wishes.
+Initial Guardian:	{{ CL_GuardianName1 | upper }}
+I give the guardian of the person of my child or children the same authority over the person of my child as a parent having legal custody of a child and authorize the guardian to exercise the power without the need for notice, hearing, or court authorization in the same manner as if the authority were exercised by a parent having legal custody of a child. I request that no bond, surety, or other security be required because of the grant of these independent powers.{% endif %}
+<div>Signed ${name}, on 
+<td>
+   Date: ${`${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`}
+</td>
+</div>
+<div>
+
+
+      <P style="page-break-before: always">
       <div>
          <img src="ift-logo.png"/>
       </div>
          <div class="invoice-box">
-         
             <table cellpadding="0" cellspacing="0">
                <tr class="top">
                   <td colspan="2">
@@ -132,12 +163,7 @@ return `
             <h1 class="justify-center">Total price: $${parseInt(price1) + parseInt(price2)}</h1>
          </div>
       </body>
-      <P style="page-break-before: always">
-      <body>
-      <div>
-      <h1>Second Page</h1>
-      </div>
-      </body>
+      
    </html>
    `;
 };
